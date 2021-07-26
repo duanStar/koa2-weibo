@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon bin/www",
     "prd": "cross-env NODE_ENV=production pm2 start bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
   },
   "dependencies": {
     "debug": "^4.1.1",
@@ -24,7 +24,9 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
+    "jest": "^27.0.6",
     "nodemon": "^1.19.1",
-    "redis": "^3.1.2"
+    "redis": "^3.1.2",
+    "supertest": "^6.1.4"
   }
 }
