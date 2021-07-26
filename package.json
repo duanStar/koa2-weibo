@@ -5,8 +5,12 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development ./node_modules/.bin/nodemon bin/www",
     "prd": "cross-env NODE_ENV=production pm2 start bin/www",
-    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
+    "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors",
+    "lint": "eslint --ext .js --max-warnings 10 ./src"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "dependencies": {
     "debug": "^4.1.1",
     "ejs": "~2.3.3",
@@ -20,12 +24,17 @@
     "koa-redis": "^4.0.1",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
-    "koa-views": "^6.2.0"
+    "koa-views": "^6.2.0",
+    "mysql2": "^2.2.5",
+    "sequelize": "^6.6.5"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
+    "eslint": "^7.31.0",
     "jest": "^27.0.6",
     "nodemon": "^1.19.1",
+    "pre-commit": "^1.2.2",
     "redis": "^3.1.2",
     "supertest": "^6.1.4"
   }
