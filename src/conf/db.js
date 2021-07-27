@@ -3,11 +3,11 @@
  * @author Duan Hongfei
  */
 
-const { isProd } = require('../utils/env')
+const { isProd, } = require('../utils/env')
 
 let REDIS_CONF = {
   port: 6379,
-  host: '12.0.0.0.1'
+  host: '12.0.0.0.1',
 }
 
 let MYSQL_CONF = {
@@ -16,7 +16,7 @@ let MYSQL_CONF = {
   user: 'root',
   password: 'root',
   port: '3306',
-  database: 'koa2_weibo_db'
+  database: 'koa2_weibo_db',
 }
 
 if (isProd) {
@@ -29,11 +29,11 @@ if (isProd) {
     user: 'root',
     password: 'root',
     port: '3306',
-    database: 'koa2_weibo_db'
+    database: 'koa2_weibo_db',
   }
 }
 
 module.exports = {
   REDIS_CONF,
-  MYSQL_CONF
+  MYSQL_CONF,
 }

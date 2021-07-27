@@ -8,52 +8,55 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 
-const { REDIS_CONF } =  require('./conf/db')
-const { isProd } = require('./utils/env')
+const { REDIS_CONF, } =  require('./conf/db')
+const { isProd, } = require('./utils/env')
 
+// 路由引入
 const index = require('./routes/index')
-const users = require('./routes/users')
+const userViewRouter = require('./routes/view/user')
+const userAPIRouter = require('./routes/api/user')
 const errorViewRouter = require('./routes/view/error')
 
 // error handlerc
 let onerrorConf =  {}
 if (isProd) {
   onerrorConf = {
-    redirect: '/error'
+    redirect: '/error',
   }
 }
 onerror(app, onerrorConf)
 
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes:['json', 'form', 'text',],
 }))
 app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', {
-  extension: 'ejs'
+  extension: 'ejs',
 }))
 
 // session配置
-app.keys = ['UIDhh_1123$@#']
+app.keys = ['UIDhh_1123$@#',]
 app.use(session({
   key: 'weibo.sid', // cookie的名字,默认为'koa.sid'
   prefix: 'weibo:sess:', // redis key 的前缀，默认为'koa:sess:'
   cookie: {
     httpOnly: true,
     path: '/',
-    maxAge: 24 * 60 * 60 * 1000 // ms 
+    maxAge: 24 * 60 * 60 * 1000, // ms 
   },
   store: redisStore({
-    all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
-  })
+    all: `${REDIS_CONF.host}:${REDIS_CONF.port}`,
+  }),
 }))
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
