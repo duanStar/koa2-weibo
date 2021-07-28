@@ -4,9 +4,11 @@
  */
 
 const router = require('koa-router')()
-const { isExist, register, login, } = require('../../controller/user')
+const { isExist, register, login, deleteCurUser, } = require('../../controller/user')
 const { genValidator, } = require('../../middlewares/validator')
+const { isTest, } = require('../../utils/env')
 const userValidate = require('../../validator/user')
+const { loginCheck, } = require('../../middlewares/loginCheck')
 
 router.prefix('/api/user')
 
@@ -27,6 +29,15 @@ router.post('/isExist', async (ctx, next) => {
 router.post('/login', async (ctx, next) => {
   const { userName, password, } = ctx.request.body
   ctx.body = await login(ctx, userName, password)
+})
+
+// 删除
+router.post('/delete', loginCheck, async (ctx, next) => {
+  if(isTest){
+    // 用来做接口测试,避免多余数据
+    const { userName, } = ctx.session.userInfo
+    ctx.body = await deleteCurUser(userName) 
+  }
 })
 
 module.exports = router

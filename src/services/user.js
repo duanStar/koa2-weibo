@@ -7,7 +7,7 @@ const { User, } = require('../db/model/index')
 const { formatUser, } = require('./_format')
 
 /**
- * 
+ * 获取用户信息
  * @param {string} userName 用户名
  * @param {string} password 密码
  */
@@ -48,7 +48,21 @@ async function createUser({ userName, password, gender = 3, nickName, }) {
   return result.dataValues
 }
 
+/**
+ * 删除用户
+ * @param {string} userName 用户名
+ */
+async function deleteUser(userName) {
+  const result = await User.destroy({
+    where: {
+      userName,
+    },
+  })
+  return result > 0
+}
+
 module.exports = {
   getUserInfo,
   createUser,
+  deleteUser,
 }
