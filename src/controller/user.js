@@ -3,7 +3,7 @@
  * @author Duan  Hongfei
  */
 
-const { getUserInfo, createUser, deleteUser, } = require('../services/user')
+const { getUserInfo, createUser, deleteUser, updateUser, } = require('../services/user')
 const { SuccessModel, ErrorModel, } = require('../model/ResModel')
 const { 
   registerUserNameNotExistInfo, 
@@ -76,9 +76,38 @@ async function deleteCurUser(userName) {
   return new ErrorModel(deleteUserFailInfo)
 }
 
+/**
+ * 修改用户信息
+ * @param {Object} ctx koa ctx
+ * @param {sting} nickName 昵称
+ * @param {sting} picture 图片地址
+ * @param {sting} city 城市
+ */
+async function changeInfo(ctx, { nickName, picture, city, }) {
+  const { userName, } = ctx.session.userInfo
+  if(!nickName) {
+    nickName = userName
+  }
+  const res = await updateUser({
+    newNicName: nickName,
+    newPicture: picture,
+    newCity: city,
+  }, { userName, })
+  if(res) {
+    Object.assign(ctx.session.userInfo, {
+      nickName,
+      city,
+      picture,
+    })
+    return new SuccessModel()
+  }
+  return new ErrorModel(changeInfoFailInfo)
+}
+
 module.exports = {
   isExist,
   register,
   login,
   deleteCurUser,
+  changeInfo,
 }

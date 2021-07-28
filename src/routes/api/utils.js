@@ -10,11 +10,6 @@ const { saveFile, } = require('../../controller/utils')
 
 router.prefix('/api/utils')
 
-const options = {
-  uploadDir: `${__dirname}/`,
-  keepExtensions: true,
-}
-
 // 上传图片
 router.post('/upload', loginCheck, koaForm(), async (ctx, next) => {
   const file = ctx.req.files['file']
