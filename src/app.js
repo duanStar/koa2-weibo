@@ -19,7 +19,7 @@ const userViewRouter = require('./routes/view/user')
 const userAPIRouter = require('./routes/api/user')
 const utilsAPIRouter = require('./routes/api/utils')
 const blogViewRouter = require('./routes/view/blog')
-const blogAPIRouter = require('./routes/api/blog')
+const blogHomeAPIRouter = require('./routes/api/blog-home')
 const errorViewRouter = require('./routes/view/error')
 
 // error handlerc
@@ -64,7 +64,7 @@ app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
-app.use(blogAPIRouter.routes(), blogAPIRouter.allowedMethods())
+app.use(blogHomeAPIRouter.routes(), blogHomeAPIRouter.allowedMethods())
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling

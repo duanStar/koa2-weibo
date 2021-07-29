@@ -50,7 +50,7 @@ async function register({ userName, password, gender, }) {
 }
 
 /**
- * 
+ * 获取用户信息
  * @param {Object} ctx koa2 ctx
  * @param {string} userName 用户名
  * @param {string} password 密码
