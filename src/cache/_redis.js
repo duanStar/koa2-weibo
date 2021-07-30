@@ -17,7 +17,7 @@ redisClient.on('error', err => {
  * @param {string} value value
  * @param {number} timeout 过期时间，单位 s
  */
-function set(key, value, timeout = 60 *60) {
+function set(key, value, timeout = 60) {
   if (typeof value === 'object') {
     value = JSON.stringify(value)
   }
