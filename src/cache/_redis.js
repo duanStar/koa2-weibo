@@ -22,7 +22,7 @@ function set(key, value, timeout = 60) {
     value = JSON.stringify(value)
   }
   redisClient.set(key, value)
-  redisClient.expire(key, value, timeout)
+  redisClient.expire(key, timeout)
 }
 
 /**
