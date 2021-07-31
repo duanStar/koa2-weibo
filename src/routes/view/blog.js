@@ -41,11 +41,16 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
     curUserInfo = existResult.data
   }
 
+  // 微博第一页数据
   const result = await getProfileBlogList(curUserName, 0)
   const { isEmpty, pageIndex, pageSize, blogList, count, } = result.data
 
+  // 粉丝数据
   const fansResult = await getFans(curUserInfo.id)
   const fansData = fansResult.data
+
+  // 是否关注此人
+  const amIFollowed = fansData.userList.some(item => item.id === myUserInfo.id)
 
   console.log(fansData)
 
@@ -64,6 +69,7 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         count: fansData.count,
         list: fansData.userList,
       },
+      amIFollowed,
     },
   })
 })

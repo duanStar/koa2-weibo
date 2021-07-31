@@ -4,10 +4,10 @@
  */
 
 const { PAGE_SIZE, } = require('../conf/constant')
-const { SuccessModel, } = require('../model/ResModel')
+const { addFollowerFailInfo, deleteFollowerFailInfo, } = require('../model/ErrorInfo')
+const { SuccessModel, ErrorModel, } = require('../model/ResModel')
 const { getBlogListByUser, } = require('../services/blog')
-const { getUserInfo, } = require('../services/user')
-const { registerUserNameNotExistInfo, } = require('../model/ErrorInfo')
+const { addFollower, removeFollower, } = require('../services/userRelation')
 
 /**
  * 获取微博列表
@@ -27,6 +27,37 @@ async function getProfileBlogList(userName, pageIndex = 0) {
   })
 }
 
+/**
+ * 关注
+ * @param {number} userId 关注人Id
+ * @param {number} followerId 被关注人Id
+ */
+async function follow(userId, followerId) {
+  try {
+    await addFollower(userId, followerId)
+    return new SuccessModel()
+  }catch(err) {
+    console.error(err.message, err.stack)
+    return new ErrorModel(addFollowerFailInfo)
+  }
+}
+
+/**
+ * 取消关注
+ * @param {number} userId 取消关注人Id
+ * @param {number} followerId 被取消关注人Id
+ */
+async function unFollow(userId, followerId) {
+  const res = await removeFollower(userId, followerId)
+  if(!res) {
+    return new ErrorModel(deleteFollowerFailInfo)
+  }
+  return new SuccessModel()
+}
+
+
 module.exports = {
   getProfileBlogList,
+  follow,
+  unFollow,
 }
