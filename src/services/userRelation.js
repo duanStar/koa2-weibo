@@ -66,8 +66,43 @@ async function removeFollower(userId, followerId) {
   return result > 0
 }
 
+/**
+ * 获取关注人列表
+ * @param {FanId} followerId 粉丝 Id
+ */
+async function getFollowersByUser(userId) {
+  const result = await UserRelation.findAndCountAll({
+    order: [
+      ['id', 'desc',],
+    ],
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'userName', 'nickName', 'picture', ],
+      },
+    ],
+    where: {
+      userId,
+    },
+  })
+
+  let userList = result.rows.map(item => item.dataValues)
+
+  userList = userList.map(item => {
+    const user = item.user.dataValues
+    item.user = formatUser(user)
+    return user
+  })
+
+  return {
+    count: result.count,
+    userList,
+  }
+}
+
 module.exports = {
   getFansByFollower,
   addFollower,
   removeFollower,
+  getFollowersByUser,
 }

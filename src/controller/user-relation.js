@@ -4,7 +4,7 @@
  */
 
 const { SuccessModel, } = require('../model/ResModel')
-const { getFansByFollower, } = require('../services/userRelation')
+const { getFansByFollower, getFollowersByUser, } = require('../services/userRelation')
 
 /**
  * 获取粉丝列表
@@ -19,6 +19,20 @@ async function getFans(userId) {
   })
 }
 
+/**
+ * 获取关注人列表
+ * @param {number} userId 用户Id
+ */
+async function getFollowers(userId) {
+  const { count, userList, } = await getFollowersByUser(userId)
+
+  return new SuccessModel({
+    count,
+    userList,
+  })
+}
+
 module.exports = {
   getFans,
+  getFollowers,
 }
