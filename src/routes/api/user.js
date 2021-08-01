@@ -9,6 +9,7 @@ const { genValidator, } = require('../../middlewares/validator')
 const { isTest, } = require('../../utils/env')
 const userValidate = require('../../validator/user')
 const { loginCheck, } = require('../../middlewares/loginCheck')
+const { getFollowers, } = require('../../controller/user-relation')
 
 router.prefix('/api/user')
 
@@ -43,6 +44,7 @@ router.post('/delete', loginCheck, async (ctx, next) => {
 // 修改个人信息
 router.patch('/changeInfo', loginCheck, genValidator(userValidate), async (ctx, next) => {
   const { nickName, city, picture, } = ctx.request.body
+  console.log(nickName, city, picture,)
   ctx.body = await changeInfo(ctx, {
     nickName,
     city,
@@ -60,6 +62,16 @@ router.patch('/changePassword', loginCheck, genValidator(userValidate), async (c
 // 退出登录
 router.post('/logout', loginCheck, async (ctx, next) => {
   ctx.body = await logout(ctx)
+})
+
+// 获取 at 列表
+router.get('/getAtList', loginCheck, async (ctx, next) => {
+  const { id: userId, } = ctx.session.userInfo
+  const result = await getFollowers(userId)
+  const { userList, } = result.data
+  const list = userList.map(item => `${item.nickName} - ${item.userName}`)
+
+  ctx.body = list
 })
 
 module.exports = router

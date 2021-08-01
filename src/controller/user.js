@@ -91,7 +91,7 @@ async function changeInfo(ctx, { nickName, picture, city, }) {
     nickName = userName
   }
   const res = await updateUser({
-    newNicName: nickName,
+    newNickName: nickName,
     newPicture: picture,
     newCity: city,
   }, { userName, })

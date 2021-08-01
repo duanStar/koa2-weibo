@@ -16,7 +16,7 @@ router.get('/', loginRedirect, async (ctx, next) => {
   const myUserInfo = ctx.session.userInfo
   const userId = myUserInfo.id
 
-  // 微博第一页数据
+  // 首页微博第一页数据
   const result = await getHomeBlogList(userId, 0)
   const { isEmpty, pageIndex, pageSize, blogList, count, } = result.data
 
