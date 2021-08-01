@@ -4,7 +4,7 @@
  */
 
 const server = require('../server')
-const { Z_COOKIE, Z_ID, L_ID } = require('../testUserInfo')
+const { Z_COOKIE, Z_ID, L_ID, L_USER_NAME } = require('../testUserInfo')
 const { getFans, getFollowers } = require('../../src/controller/user-relation')
 
 test('无论如何，先取消关注，应该成功', async () => {
@@ -43,6 +43,13 @@ test('获取 zs 关注人应该有 lisi', async () => {
   expect(res.errno).toBe(0)
   expect(hasUser).toBeTruthy()
   expect(count).toBeGreaterThan(0)
+})
+
+test('获取 zs at 列表，应该有 lisi', async () => {
+  const res = await server.get('/api/user/getAtList').set('Cookie', Z_COOKIE)
+  const hasUserName = res.body.some(item => item.includes(L_USER_NAME))
+
+  expect(hasUserName).toBeTruthy()
 })
 
 test('zs 取消关注 lisi 应该成功', async () => {
