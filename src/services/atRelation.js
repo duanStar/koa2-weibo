@@ -54,7 +54,6 @@ async function getAtUserBlogList(userId, pageIndex = 0, pageSize = 10) {
         attributes: ['userId', 'blogId',],
         where: {
           userId,
-          isRead: false,
         },
       },
       {
@@ -77,8 +76,30 @@ async function getAtUserBlogList(userId, pageIndex = 0, pageSize = 10) {
   }
 }
 
+/**
+ * 根据条件更新数据
+ * @param {Object} param0 要更新的内容 { newIsRead, }
+ * @param {Object} param1 条件 { userId, isRead, }
+ */
+async function updateAtRelation({ newIsRead, }, { userId, isRead, }) {
+  const updateData = {}
+  newIsRead && (updateData.isRead = newIsRead)
+
+  const whereOpt = {
+    userId,
+  }
+  isRead && (whereOpt.isRead = isRead)
+
+  const result = await AtRelation.update(updateData, {
+    where: whereOpt,
+  })
+
+  return result[0] > 0
+}
+
 module.exports = {
   createAtRelation,
   getRelationCount,
   getAtUserBlogList,
+  updateAtRelation,
 }

@@ -3,7 +3,7 @@
  * @author Duan Hongfei
  */
 
-const { getRelationCount, getAtUserBlogList, } = require('../services/atRelation')
+const { getRelationCount, getAtUserBlogList, updateAtRelation, } = require('../services/atRelation')
 const { SuccessModel, } = require('../model/ResModel')
 const { PAGE_SIZE, } = require('../conf/constant')
 
@@ -35,7 +35,20 @@ async function getAtMeBlogList(userId, pageIndex = 0) {
   })
 }
 
+/**
+ * 将 at me 微博标记为已读
+ * @param {number} userId 用户Id
+ */
+async function markAsRead(userId) {
+  try {
+    await updateAtRelation({ newIsRead: true, }, { userId, isRead: false, })
+  }catch(err) {
+    console.log(err.message, err.stack)
+  }
+}
+
 module.exports = {
   getAtMeCount,
   getAtMeBlogList,
+  markAsRead,
 }
