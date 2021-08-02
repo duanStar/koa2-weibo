@@ -10,6 +10,7 @@ const { getSquareBlogList, } = require('../../controller/blog-square')
 const { isExist, } = require('../../controller/user')
 const { getFans, getFollowers, } = require('../../controller/user-relation')
 const { getHomeBlogList, } = require('../../controller/blog-home')
+const { getAtMeCount, } = require('../../controller/blog-at')
 
 // 首页
 router.get('/', loginRedirect, async (ctx, next) => {
@@ -27,6 +28,10 @@ router.get('/', loginRedirect, async (ctx, next) => {
   // 关注人数据
   const followersResult = await getFollowers(userId)
   const followersData = followersResult.data
+
+  // 获取 @ me微博数量
+  const atCountResult = await getAtMeCount(userId)
+  const { atCount, } = atCountResult.data
 
   await ctx.render('index', {
     blogData: {
@@ -46,6 +51,7 @@ router.get('/', loginRedirect, async (ctx, next) => {
         count: followersData.count,
         list: followersData.userList,
       },
+      atCount,
     },
   })
 })
@@ -91,6 +97,10 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
   // 是否关注此人
   const amIFollowed = fansData.userList.some(item => item.id === myUserInfo.id)
 
+  // 获取 @ me微博数量
+  const atCountResult = await getAtMeCount(myUserInfo.id)
+  const { atCount, } = atCountResult.data
+
   console.log(fansData)
 
   await ctx.render('profile', {
@@ -113,6 +123,7 @@ router.get('/profile/:userName', loginRedirect, async (ctx, next) => {
         count: followersData.count,
         list: followersData.userList,
       },
+      atCount,
     },
   })
 })
