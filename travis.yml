@@ -1,10 +1,15 @@
 language: node_js
 node_js:
   - "stable"
+install:
+  - npm install
 cache:
   directories:
   - node_modules
 env:
   - CI=true
+branches:
+  only:
+    - main
 script:
   - npm run lint
