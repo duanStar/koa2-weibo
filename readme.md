@@ -1,5 +1,7 @@
 # 基于Koa2、MySQl、Redis、Jest的简化微博
 
+[![Build Status](https://www.travis-ci.com/star2-lab/koa2-weibo.svg?branch=main)](https://www.travis-ci.com/star2-lab/koa2-weibo)
+
 ### 启动
 
 ```js
