@@ -23,4 +23,5 @@ npm run test
 - 利用Jest、supertest完成**项目接口测试**
 - 通过eslint进行**代码规范约束**
 - 通过pre-commit完成项目每次git提交前进行项目代码规范检测
+- travis 发布
 
