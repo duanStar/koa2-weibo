@@ -65,7 +65,6 @@ async function getAtUserBlogList(userId, pageIndex = 0, pageSize = 10) {
   })
 
   let blogList = result.rows.map(item => item.dataValues)
-  console.log(blogList)
   blogList = formatBlog(blogList)
   blogList = blogList.map(item => {
     item.user = formatUser(item.user.dataValues)
